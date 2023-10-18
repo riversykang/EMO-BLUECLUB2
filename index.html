@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>EMO-BLUECLUB</title>
+	<style>
+		body{
+			background-image: url('background.png');
+            background-size: cover;
+            background-position: top;
+            background-repeat: no-repeat;
+            height: 100vh;
+            margin: 0px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+		}
+		    /* 스타일을 통해 직사각형 모양 지정 */
+        	.rectangle {
+            background-color: black;
+            position: absolute;
+        }
+        #playButton {
+    	width: 145px; /* Adjust the width and height to match your image */
+    	height: 35px;
+    	}
+    	#stopButton {
+    	width: 145px; /* Adjust the width and height to match your image */
+    	height: 35px;
+    	}
+        #applyColor {
+        position: absolute;
+        top: 300px;
+        left: 100px;
+        } 
+        #colorPicker {
+        position: absolute;
+        top: 300px;
+        left: 40px;
+        }
+	</style>
+</head>
+<body>
+	  <img id="playButton" src="playbutton.png" style="position: absolute; top: 710px; left: 30px; cursor: pointer;">
+    <img id="stopButton" src="stopbutton.png" style="position: absolute; top: 752px; left: 30px; cursor: pointer;">
+    <input type="color" id="colorPicker">
+    <button id="applyColor">이 색으로 전체염색하기</button>
+    <audio id="bgmAudio" src="bgm.mp3"></audio>
+	<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const playButton = document.getElementById("playButton");
+    const stopButton = document.getElementById("stopButton");
+    const bgmAudio = document.getElementById("bgmAudio");
+
+    const colorPicker = document.getElementById("colorPicker");
+    const applyColorButton = document.getElementById("applyColor");
+
+    let selectedColor = "black"; // Default color
+
+    // Event listener for color selection
+    colorPicker.addEventListener('input', function (event) {
+        selectedColor = event.target.value;
+    });
+
+    applyColorButton.addEventListener('click', function () {
+        // Apply the selected color to all rectangles
+        const rectangles = document.querySelectorAll('.rectangle');
+        rectangles.forEach(function (rectangle) {
+            rectangle.style.backgroundColor = selectedColor;
+        });
+    });
+
+    playButton.addEventListener('click', function () {
+        bgmAudio.play();
+    });
+
+    stopButton.addEventListener('click', function () {
+        bgmAudio.pause();
+    });
+
+    document.body.addEventListener('click', function (event) {
+        const x = event.clientX;
+
+        if (x > 200) {
+            const randomHeight = Math.floor(Math.random() * 201) + 100;
+            const y = event.clientY;
+
+            const rectangle = document.createElement('div');
+            rectangle.classList.add('rectangle');
+            rectangle.style.width = '25px';
+            rectangle.style.height = randomHeight + 'px';
+            rectangle.style.left = x + 'px';
+            rectangle.style.top = y + 'px';
+            rectangle.style.backgroundColor = selectedColor; // Apply the selected color
+
+            document.body.appendChild(rectangle);
+        }
+    });
+});
+	</script>
+</body>
+</html>
